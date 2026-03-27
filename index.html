@@ -891,7 +891,7 @@
 
   let currentLang = 'en';
 
-  function applyLang(lang) {
+  function applyLang(lang, save) {
     currentLang = lang;
     const t = i18n[lang];
 
@@ -915,11 +915,11 @@
     if (toggleBtn) toggleBtn.textContent = lang === 'zh' ? 'EN' : '中文';
     if (mobileToggleBtn) mobileToggleBtn.textContent = lang === 'zh' ? 'Switch to English' : '切换为中文';
 
-    try { localStorage.setItem('cleanall-lang', lang); } catch(e) {}
+    if (save) try { localStorage.setItem('cleanall-lang', lang); } catch(e) {}
   }
 
   function toggleLang() {
-    applyLang(currentLang === 'zh' ? 'en' : 'zh');
+    applyLang(currentLang === 'zh' ? 'en' : 'zh', true);
   }
 
   // Detect language: saved preference > browser language > English
@@ -934,7 +934,7 @@
         if (browser.startsWith('zh')) lang = 'zh';
       }
     } catch(e) {}
-    applyLang(lang);
+    applyLang(lang, false);
   })();
 
   document.getElementById('lang-toggle').addEventListener('click', toggleLang);
